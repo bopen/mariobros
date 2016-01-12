@@ -1,6 +1,8 @@
 MarioBros
 =========
 
+Simple configuration language for Spotify Luigi.
+
 Master branch status:
 
 .. image:: https://travis-ci.org/bopen/mariobros.svg?branch=master
@@ -10,8 +12,6 @@ Master branch status:
 .. image:: https://coveralls.io/repos/bopen/mariobros/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/bopen/mariobros
     :alt: Coverage Status on Coveralls
-
-Simple configuration language for Spotify Luigi.
 
 Install
 =======
