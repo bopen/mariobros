@@ -357,7 +357,7 @@ def parse_mariofile(mariofile='mario.ini'):
 def mario(rendered_namespaces, default_namespace, targets=('default',), dry_run=False):
     """Generate Luigi tasks' file from Mariofile and Luigi template file"""
     dry_run_suffix = '-dry_run-' + str(uuid.uuid4()) if dry_run else ''
-    rendered_namespaces = collections.OrderedDict(reversed(rendered_namespaces.items()))
+    rendered_namespaces = collections.OrderedDict(reversed(list(rendered_namespaces.items())))
     tasks = list(register_tasks(rendered_namespaces, default_namespace=default_namespace, dry_run_suffix=dry_run_suffix))
     target_tasks = []
     for target in targets:
