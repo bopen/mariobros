@@ -16,56 +16,58 @@ Simple configuration language for Spotify Luigi.
 Install
 =======
 
-install in the current python environment
+install in the current python environment::
 
     python setup.py install
 
 Test
 ====
 
-run all tests
+run all tests::
 
     py.test -v tests
 
 Usage
 =====
 
-see online help
+see online help::
 
     mario --help
 
-run mariobros with ./mario.ini config file and 'default' target
+run mariobros with ./mario.ini config file and 'default' target::
 
     mario
 
 Develop
 =======
 
+Develop::
+
     python setup.py develop
     pip install -e .[dev]
 
-sphinx-build documentation
+sphinx-build documentation::
 
     sphinx-build doc/ doc/html
 
-coverage
+coverage::
 
     py.test -v --cov mariobros --cov-report html tests
     open htmlcov/index.html
 
-pep8/flakes
+pep8/flakes::
 
     py.test -v --pep8 --flakes mariobros tests
 
-version testing
+version testing::
 
     tox
 
-run luigid in background with logging
+run luigid in background with logging::
 
     luigid > luigid.log 2>&1 &
 
-some minimal test configuration
+some minimal test configuration::
 
     cd tests
     cat mario.ini
