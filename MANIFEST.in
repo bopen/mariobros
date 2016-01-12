@@ -1,4 +1,10 @@
-include DESCRIPTION.rst
-
-# Include the test suite (FIXME: does not work yet)
-# recursive-include tests *
+include *.rst
+include *.txt
+include LICENSE
+include client.cfg
+include tox.ini
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include tests *.ini
+recursive-include tests *.py
+recursive-include tests *.txt
