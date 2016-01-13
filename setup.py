@@ -60,7 +60,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'mario=mariobros.mario:main',
+            'mario=mariobros.cli:main',
         ],
     },
 )
