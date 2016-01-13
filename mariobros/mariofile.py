@@ -116,6 +116,8 @@ def parse_config(raw_lines, cwd='.'):
     """Parse the input Mariofile and the included Mariofiles recursively and return a dictionary
     with the section name as the key and the section namespace as the value.
 
+    :param str raw_lines: Mariofile per lines.
+    :param str cwd: Current working directory.
     :rtype: dict
     """
     include_paths, end_include_line = parse_include(raw_lines)
@@ -131,6 +133,12 @@ def parse_config(raw_lines, cwd='.'):
 
 
 def parse_config_file(file_path, cwd='.'):
+    """Parse input mariofile.
+
+    :param str file_path: File path.
+    :param str cwd: Current working directory.
+    :return: dict
+    """
     file_path = os.path.join(cwd, file_path)
     file_cwd = os.path.dirname(file_path)
     with open(file_path) as stream:

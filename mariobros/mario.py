@@ -215,12 +215,23 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
 
 
 def print_namespaces(default_namespace, section_namespaces):
+    """Print namespaces with the Mariofile format.
+
+    :param dict default_namespace: Default namespace dictionary.
+    :param dict section_namespaces: Section namespaces dictionary.
+    :return: str
+    """
     template = mako.template.Template(TEMPLATE)
     namespaces = template.render(default_namespace=default_namespace, section_namespaces=section_namespaces)
     return namespaces
 
 
 def parse_mariofile(mariofile='mario.ini'):
+    """Parse and render a Mariofile.
+
+    :param str mariofile: Mariofile path.
+    :return: (dict, dict, dict)
+    """
     section_namespaces = mariofile_.parse_config_file(mariofile)
     default_namespace = render_namespace(section_namespaces['DEFAULT'])
     rendered_namespaces = collections.OrderedDict((k, render_namespace(v, default_namespace)) for k, v in section_namespaces.items())
@@ -228,7 +239,14 @@ def parse_mariofile(mariofile='mario.ini'):
 
 
 def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=False):
-    """Generate Luigi tasks' file from Mariofile and Luigi template file"""
+    """Generate Luigi tasks' file from Mariofile and Luigi template file
+
+    :param dict rendered_namespaces: Rendered namespaces dictionary.
+    :param dict default_namespace: Default namespace dictionary.
+    :param iterable targets: List of targets.
+    :param bool dry_run: Dry run flag.
+    :rtype : iterable
+    """
     dry_run_suffix = '-dry_run-' + str(uuid.uuid4()) if dry_run else ''
     rendered_namespaces = collections.OrderedDict(reversed(list(rendered_namespaces.items())))
     tasks = list(register_tasks(rendered_namespaces, default_namespace=default_namespace, dry_run_suffix=dry_run_suffix))
@@ -244,11 +262,11 @@ def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=
 def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1, **kwargs):
     """Main mariobros entry point. Parse the configuration file and launch the build of the targets.
 
-    :param sequence targets:
-    :param str mariofile:
-    :param bool print_ns:
-    :param bool dry_run:
-    :param int workers:
+    :param sequence targets: List of targets.
+    :param str mariofile: Mariofile name.
+    :param bool print_ns: Flag to print namespace.
+    :param bool dry_run: Dry run flag.
+    :param int workers: Number of workers.
     :param dict kwargs: Passed to the luigi.build function.
     """
     if dry_run and workers > 1:
