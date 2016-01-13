@@ -12,13 +12,14 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
 
 setup(
     name='mariobros',
-    version='0.1',
+    version='0.1.0',
     description='Simple configuration for Spotify Luigi.',
     long_description=long_description,
     url='https://github.com/bopen/mariobros',
+    download_url='https://github.com/bopen/mariobros/archive/0.1.0.tar.gz',
     author='B-Open Solutions srl',
-    author_email='info@bopen.eu',
-    license='Proprietary',
+    author_email='oss@bopen.eu',
+    license='Apache License 2.0',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',
@@ -32,7 +33,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Topic :: System :: Monitoring',
     ],
-    packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    packages=find_packages(exclude=['contrib', 'docs']),
+    zip_safe=False,
     install_requires=[
         'click',
         'mako',
