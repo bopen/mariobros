@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import dict, int, open, str, super
+from builtins import open
 
 import collections
 import future.utils
@@ -123,7 +123,7 @@ def parse_config(raw_lines, cwd='.'):
     include_paths, end_include_line = parse_include(raw_lines)
     section_namespaces = collections.OrderedDict()
     for include_path in include_paths:
-        for section, section_namespace in parse_config_file(include_path, cwd=cwd).items():
+        for section, section_namespace in parse_mariofile(include_path, cwd=cwd).items():
             namespace = section_namespaces.setdefault(section, collections.OrderedDict())
             namespace.update(section_namespace)
     for section, body_stream in parse_sections(raw_lines[end_include_line:]):
@@ -132,7 +132,7 @@ def parse_config(raw_lines, cwd='.'):
     return section_namespaces
 
 
-def parse_config_file(file_path, cwd='.'):
+def parse_mariofile(file_path, cwd='.'):
     """Parse input mariofile.
 
     :param str file_path: File path.

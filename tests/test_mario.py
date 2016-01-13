@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import dict, next, str
+from builtins import next, str
 
 import collections
 import os
@@ -135,16 +135,19 @@ target: source
     assert mario.print_namespaces(default_namespace, section_namespaces).replace('\n\n', '\n').replace('\n\n', '\n') == output
 
 
-def test_parse_mariofile():
+def test_render_config():
     with patch('mariobros.mariofile.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
-        section_namespaces, default_namespace, rendered_namespaces = mario.parse_mariofile(TOUCH_MARIOFILE)
+        section_namespaces = mariofile.parse_mariofile('')
+    default_namespace, rendered_namespaces = mario.render_config(section_namespaces)
     assert section_namespaces['DEFAULT']['action_template'] == '    touch'
     assert default_namespace['action_template'] == '    touch'
     assert rendered_namespaces['DEFAULT']['action_template'] == '    touch'
 
 
 def test_mario():
-    section_namespaces, default_namespace, rendered_namespaces = mario.parse_mariofile(os.path.join(cw_dir, 'touch_mariofile.ini'))
+    with patch('mariobros.mariofile.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
+        section_namespaces = mariofile.parse_mariofile('')
+    default_namespace, rendered_namespaces = mario.render_config(section_namespaces)
     touch_tasks = mario.mario(rendered_namespaces, default_namespace)
     assert touch_tasks[0].target == 'DEFAULT'
     with patch('mariobros.mario.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):

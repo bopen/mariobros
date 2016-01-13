@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import dict, int, open, str, super
+from builtins import dict, int, str, super
 
 import atexit
 import collections
@@ -14,8 +14,6 @@ import uuid
 import future.utils
 import luigi
 import mako.template
-
-from mariobros import mariofile as mariofile_
 
 
 LOGGER = logging.getLogger('luigi-interface')
@@ -226,16 +224,15 @@ def print_namespaces(default_namespace, section_namespaces):
     return namespaces
 
 
-def parse_mariofile(mariofile='mario.ini'):
+def render_config(section_namespaces):
     """Parse and render a Mariofile.
 
     :param str mariofile: Mariofile path.
     :return: (dict, dict, dict)
     """
-    section_namespaces = mariofile_.parse_config_file(mariofile)
     default_namespace = render_namespace(section_namespaces['DEFAULT'])
     rendered_namespaces = collections.OrderedDict((k, render_namespace(v, default_namespace)) for k, v in section_namespaces.items())
-    return section_namespaces, default_namespace, rendered_namespaces
+    return default_namespace, rendered_namespaces
 
 
 def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=False):
@@ -257,25 +254,3 @@ def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=
                 target_tasks.append(task_rule(target=target))
                 break
     return target_tasks
-
-
-def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1, **kwargs):
-    """Main mariobros entry point. Parse the configuration file and launch the build of the targets.
-
-    :param sequence targets: List of targets.
-    :param str mariofile: Mariofile name.
-    :param bool print_ns: Flag to print namespace.
-    :param bool dry_run: Dry run flag.
-    :param int workers: Number of workers.
-    :param dict kwargs: Passed to the luigi.build function.
-    """
-    if dry_run and workers > 1:
-        workers = 1
-        LOGGER.warning('Dry run is incompatible with multiprocessing. Setting --workers=1')
-    section_namespaces, default_namespace, rendered_namespaces = parse_mariofile(mariofile)
-    if print_ns:
-        namespaces = print_namespaces(default_namespace, section_namespaces)
-        print(namespaces)
-    else:
-        target_tasks = mario(rendered_namespaces, default_namespace, targets=targets, dry_run=dry_run)
-        luigi.build(target_tasks, workers=workers, **kwargs)
