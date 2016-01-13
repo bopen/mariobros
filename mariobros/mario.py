@@ -120,7 +120,7 @@ class ReRuleTask(luigi.Task):
     def render_action(self):
         sources = self.render_sources()
         match = self._target_pattern.match(self.target)
-        target_namespace = dict(target=self.target, sources=sources, match=match)
+        target_namespace = dict(TARGET=self.target, SOURCES=sources, MATCH=match)
         return render_template(self.action_template, target_namespace, default_namespace=self.action_namespace)
 
     def output(self):
@@ -354,7 +354,7 @@ def parse_mariofile(mariofile='mario.ini'):
     return section_namespaces, default_namespace, rendered_namespaces
 
 
-def mario(rendered_namespaces, default_namespace, targets=('default',), dry_run=False):
+def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=False):
     """Generate Luigi tasks' file from Mariofile and Luigi template file"""
     dry_run_suffix = '-dry_run-' + str(uuid.uuid4()) if dry_run else ''
     rendered_namespaces = collections.OrderedDict(reversed(list(rendered_namespaces.items())))
@@ -404,5 +404,5 @@ def mariobros(targets=('default',), mariofile='mario.ini', print_ns=False, dry_r
 @click.option('--dry-run', '-n', is_flag=True, help="Don't actually run any commands; just print them.")
 def main(targets, **kwargs):
     if not targets:
-        targets = ('default',)
+        targets = ('DEFAULT',)
     mariobros(targets, **kwargs)

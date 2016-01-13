@@ -54,7 +54,7 @@ NAMESPACES = collections.OrderedDict([
     ('rule1', {
         'target_pattern': '(.*).target',
         'sources_repls': '\\1.source',
-        'action_template': 'action -o ${target} ${sources}',
+        'action_template': 'action -o ${TARGET} ${SOURCES}',
     }),
     ('rule2', {
         'resources_cpu': 2,
@@ -62,7 +62,7 @@ NAMESPACES = collections.OrderedDict([
         'priority': 20,
         'target_pattern': '(.*).source',
         'sources_repls': '\\1.orig',
-        'action_template': 'touch ${target}',
+        'action_template': 'touch ${TARGET}',
     }),
 ])
 
@@ -338,7 +338,7 @@ def test_parse_config():
 
 
 TOUCH_MARIOFILE = """
-default:
+DEFAULT:
     touch
 
 [task]
@@ -351,7 +351,7 @@ def test_print_namespaces():
     section_namespaces = mario.parse_config(TOUCH_MARIOFILE.splitlines(True))
     default_namespace = mario.render_namespace(section_namespaces['DEFAULT'])
     output = """
-default:\x20
+DEFAULT:\x20
         touch
 [task]
 target: source
@@ -369,11 +369,11 @@ def test_parse_mariofile():
     assert rendered_namespaces['DEFAULT']['action_template'] == '    touch'
 
 
-def test_mario(tmpdir):
+def test_mario():
     with patch('mariobros.mario.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
         section_namespaces, default_namespace, rendered_namespaces = mario.parse_mariofile(TOUCH_MARIOFILE)
         touch_tasks = mario.mario(rendered_namespaces, default_namespace)
-    assert touch_tasks[0].target == 'default'
+    assert touch_tasks[0].target == 'DEFAULT'
     with patch('mariobros.mario.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
         touch_tasks = mario.mario(rendered_namespaces, default_namespace, targets=['target'])
     assert touch_tasks[0].target == 'target'
