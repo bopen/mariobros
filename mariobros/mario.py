@@ -368,7 +368,7 @@ def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=
     return target_tasks
 
 
-def mariobros(targets=('default',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1, **kwargs):
+def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1, **kwargs):
     """Main mariobros entry point. Parse the configuration file and launch the build of the targets.
 
     :param sequence targets:
