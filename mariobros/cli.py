@@ -27,7 +27,7 @@ def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_r
     section_namespaces = mariofile_.parse_mariofile(mariofile)
     default_namespace, rendered_namespaces = mario.render_config(section_namespaces)
     if print_ns:
-        namespaces = print_namespaces(default_namespace, section_namespaces)
+        namespaces = mario.print_namespaces(default_namespace, section_namespaces)
         print(namespaces)
     else:
         target_tasks = mario.mario(rendered_namespaces, default_namespace, targets=targets, dry_run=dry_run)
