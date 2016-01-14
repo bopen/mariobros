@@ -66,7 +66,7 @@ NAMESPACES = collections.OrderedDict([
         'priority': 20,
         'target_pattern': '(.*).source',
         'sources_repls': '\\1.orig',
-        'action_template': 'touch ${TARGET}',
+        'action_template': '',
     }),
 ])
 
@@ -97,6 +97,8 @@ def test_ReRuleMixin():
     requires2 = task2.requires()
     assert len(requires2) == 1
     assert requires2[0].target == 'file.orig'
+
+    task2.remove_dry_run_file()
 
 
 def test_register_tasks():
