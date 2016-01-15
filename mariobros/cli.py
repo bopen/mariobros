@@ -49,4 +49,4 @@ def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_r
 def main(targets, **kwargs):
     if not targets:
         targets = ('DEFAULT',)
-    mario.mariobros(targets, **kwargs)
+    mariobros(targets, **kwargs)
