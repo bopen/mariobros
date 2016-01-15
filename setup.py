@@ -45,8 +45,6 @@ setup(
     extras_require={
         'dev': [
             'check-manifest',
-            'pytest',
-            'mock',
             'pytest-cov',
             'pytest-flakes',
             'pytest-pep8',
