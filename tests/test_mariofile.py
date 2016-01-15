@@ -235,7 +235,6 @@ def test_parse_config(tmpdir):
     g = mario_folder.join('test_include.ini')
     g.write('')
     mario_folder.chdir()
-    # with patch('mariobros.mariofile.open', mock_open(read_data=MARIOFILE_INCLUDE), create=True):
     parsed_MARIOFILE_include = mariofile.parse_config(
             MARIOFILE_AND_INCLUDE.splitlines(True),
             cwd=os.path.join(str(mario_folder.dirname), 'tmpdir')
