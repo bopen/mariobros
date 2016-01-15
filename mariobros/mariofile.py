@@ -51,14 +51,14 @@ def parse_section_body(stream):
             namespace[name] = expression_template
         elif ':' in statement.partition('\n')[0]:
             if namespace['target_pattern']:
-                raise ConfigurationFileError('Section must have only one rule')
+                raise ConfigurationFileError("Section must have only one rule")
             target_sources, _, action_template = statement.strip().partition('\n')
             namespace['action_template'] = action_template
             target_pattern, _, sources = target_sources.partition(':')
             namespace['sources_repls'] = sources.strip()
             namespace['target_pattern'] = target_pattern.strip()
         else:
-            raise ConfigurationFileError('Statement not an assignment nor a rule: {!r}'.format(statement))
+            raise ConfigurationFileError("Statement not an assignment nor a rule: %r" % statement)
     return namespace
 
 
@@ -76,11 +76,13 @@ def parse_sections(stream):
             section_name = match.group(1).strip()
             garbage = match.group(2).strip()
             if not future.utils.isidentifier(section_name):
-                raise ConfigurationFileError('Invalid section name at line {}: {!r}'.format(
-                    line_number, match.group(0)))
+                raise ConfigurationFileError(
+                    "Invalid section name at line %r: %r" % (line_number, match.group(0))
+                )
             if garbage:
-                raise ConfigurationFileError('Garbage after section name at line {}: {!r}'.format(
-                    line_number, match.group(0)))
+                raise ConfigurationFileError(
+                    "Garbage after section name at line %r: %r" % (line_number, match.group(0))
+                )
             else:
                 yield section, body_stream
                 section = match.group(1)
