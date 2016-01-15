@@ -20,16 +20,16 @@ def test_mariobros(tmpdir):
     f = mario_folder.join('touch_file.ini')
     f.write(TOUCH_FILE)
     cli.mariobros(
-            targets=['touched-11-22.file', ], mariofile='touch_file.ini', local_scheduler=True
+            targets=['touched-11-22.file', ], mariofile=u'touch_file.ini', local_scheduler=True
     )
     created_files = sorted(glob.glob('touched*'))
     assert created_files == ['touched-11-22.file', 'touched-11.file', 'touched-22.file']
     cli.mariobros(
-            targets=['touched-11-22.file', ], mariofile='touch_file.ini', local_scheduler=True,
+            targets=['touched-11-22.file', ], mariofile=u'touch_file.ini', local_scheduler=True,
             dry_run=True, workers=2
     )
     cli.mariobros(
-            targets=['touched-11-22.file', ], mariofile='touch_file.ini', local_scheduler=True,
+            targets=['touched-11-22.file', ], mariofile=u'touch_file.ini', local_scheduler=True,
             print_ns=True
     )
 
