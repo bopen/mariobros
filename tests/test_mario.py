@@ -8,7 +8,6 @@ import collections
 import os
 
 import luigi
-from mock import patch, mock_open
 import pytest
 
 from mariobros import mario
@@ -137,22 +136,27 @@ target: source
     assert mario.print_namespaces(default_namespace, section_namespaces).replace('\n\n', '\n').replace('\n\n', '\n') == output
 
 
-def test_render_config():
-    with patch('mariobros.mariofile.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
-        section_namespaces = mariofile.parse_mariofile('')
+def test_render_config(tmpdir):
+    mario_folder = tmpdir.mkdir('tmpdir')
+    f = mario_folder.join('render_config.ini')
+    f.write(TOUCH_MARIOFILE)
+    mario_folder.chdir()
+    section_namespaces = mariofile.parse_mariofile('render_config.ini')
     default_namespace, rendered_namespaces = mario.render_config(section_namespaces)
     assert section_namespaces['DEFAULT']['action_template'] == '    touch'
     assert default_namespace['action_template'] == '    touch'
     assert rendered_namespaces['DEFAULT']['action_template'] == '    touch'
 
 
-def test_mario():
-    with patch('mariobros.mariofile.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
-        section_namespaces = mariofile.parse_mariofile('')
+def test_mario(tmpdir):
+    mario_folder = tmpdir.mkdir('tmpdir')
+    f = mario_folder.join('test_mario.ini')
+    f.write(TOUCH_MARIOFILE)
+    mario_folder.chdir()
+    section_namespaces = mariofile.parse_mariofile('test_mario.ini')
     default_namespace, rendered_namespaces = mario.render_config(section_namespaces)
     touch_tasks = mario.mario(rendered_namespaces, default_namespace)
     assert touch_tasks[0].target == 'DEFAULT'
-    with patch('mariobros.mario.open', mock_open(read_data=TOUCH_MARIOFILE), create=True):
-        touch_tasks = mario.mario(rendered_namespaces, default_namespace, targets=['target'])
+    touch_tasks = mario.mario(rendered_namespaces, default_namespace, targets=['target'])
     assert touch_tasks[0].target == 'target'
     assert touch_tasks[0].name == 'task'

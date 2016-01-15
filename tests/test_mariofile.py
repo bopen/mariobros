@@ -6,7 +6,6 @@ from builtins import dict
 
 import os
 
-from mock import patch, mock_open
 import pytest
 
 from mariobros import mariofile
@@ -188,8 +187,17 @@ target: source
     task
 """
 
+TEST_PARSE_CONFIG = """
+include test_include.ini
+variable_default = 1
 
-def test_parse_config():
+[section_main]
+[section_include_1]
+variable_include1 = 3
+"""
+
+
+def test_parse_config(tmpdir):
     parsed_MARIOFILE = {
         'DEFAULT': {
             'action_template': '',
@@ -223,8 +231,14 @@ def test_parse_config():
             'variable_include_3': '3',
         }
     }
-    with patch('mariobros.mariofile.open', mock_open(read_data=MARIOFILE_INCLUDE), create=True):
-        parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True))
+    mario_folder = tmpdir.mkdir('tmpdir')
+    f = mario_folder.join('test_parse_config.ini')
+    f.write(MARIOFILE_INCLUDE)
+    g = mario_folder.join('test_include.ini')
+    g.write('')
+    mario_folder.chdir()
+    # with patch('mariobros.mariofile.open', mock_open(read_data=MARIOFILE_INCLUDE), create=True):
+    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True), cwd=os.path.join(str(mario_folder.dirname), 'tmpdir'))
     for key, value in parsed_MARIOFILE_include.items():
         assert value == parsed_MARIOFILE_include_test[key], print(key)
 
@@ -247,6 +261,7 @@ def test_parse_config():
             'variable_include1': '3',
         }
     }
-
-    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True), cwd=os.path.dirname(__file__))
+    h = mario_folder.join('test_parse_config.ini')
+    h.write(TEST_PARSE_CONFIG)
+    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True), cwd=os.path.join(str(mario_folder.dirname), 'tmpdir'))
     assert parsed_MARIOFILE_include == parsed_MARIOFILE_multiple_include
