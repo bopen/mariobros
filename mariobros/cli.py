@@ -11,8 +11,11 @@ from mariobros import mario
 from mariobros import mariofile as mariofile_
 
 
-def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1, **kwargs):
-    """Main mariobros entry point. Parse the configuration file and launch the build of the targets.
+def mariobros(
+        targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1,
+        **kwargs
+):
+    """Main mariobros entry point. Parse the configuration file and launch the build of targets.
 
     :param sequence targets: List of targets.
     :param str mariofile: Mariofile name.
@@ -30,7 +33,9 @@ def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_r
         namespaces = mario.print_namespaces(default_namespace, section_namespaces)
         print(namespaces)
     else:
-        target_tasks = mario.mario(rendered_namespaces, default_namespace, targets=targets, dry_run=dry_run)
+        target_tasks = mario.mario(
+            rendered_namespaces, default_namespace, targets=targets, dry_run=dry_run
+        )
         luigi.build(target_tasks, workers=workers, **kwargs)
 
 
@@ -45,7 +50,9 @@ def mariobros(targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_r
 @click.option('--workers', default=1, help='Number of workers', type=int)
 @click.option('--local-scheduler', is_flag=True)
 @click.option('--print-ns', is_flag=True)
-@click.option('--dry-run', '-n', is_flag=True, help="Don't actually run any commands; just print them.")
+@click.option(
+    '--dry-run', '-n', is_flag=True,
+    help="Don't actually run any commands; just print them.")
 def main(targets, **kwargs):
     if not targets:
         targets = ('DEFAULT',)
