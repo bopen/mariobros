@@ -1,0 +1,4 @@
+pytest-cov
+pytest-pep8
+pytest-flakes
+pytest-mccabe
