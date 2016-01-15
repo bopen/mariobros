@@ -10,7 +10,6 @@ import pytest
 
 from mariobros import mariofile
 
-
 SIMPLE_MARIOFILE = """[section_one]
 text one
 [section_two]
@@ -56,7 +55,9 @@ def test_parse_sections():
         dict(mariofile.parse_sections(GARBAGE_MARIOFILE.splitlines(True)))
     with pytest.raises(mariofile.ConfigurationFileError):
         dict(mariofile.parse_sections(INVALID_SECTION_MARIOFILE.splitlines(True)))
-    more_complex_MARIOFILE_sections = dict(mariofile.parse_sections(MORE_COMPLEX_MARIOFILE.splitlines(True)))
+    more_complex_MARIOFILE_sections = dict(
+            mariofile.parse_sections(MORE_COMPLEX_MARIOFILE.splitlines(True))
+    )
     more_complex_MARIOFILE_sections_keys = ['DEFAULT', 'section_one', 'section_two', 'three']
     assert sorted(more_complex_MARIOFILE_sections.keys()) == more_complex_MARIOFILE_sections_keys
     assert more_complex_MARIOFILE_sections['three'] == []
@@ -159,13 +160,11 @@ target1: source1
     task1
 """
 
-
 MARIOFILE_AND_INCLUDE = """
 include test_parse_config.ini
 
 [section_include_1]
 """
-
 
 MARIOFILE_INCLUDE = """
 task_cmd = task_command
@@ -176,7 +175,6 @@ target_include: source_include
 [section_include_1]
 variable_include_3 = 3
 """
-
 
 TOUCH_MARIOFILE = """
 DEFAULT:
@@ -238,7 +236,10 @@ def test_parse_config(tmpdir):
     g.write('')
     mario_folder.chdir()
     # with patch('mariobros.mariofile.open', mock_open(read_data=MARIOFILE_INCLUDE), create=True):
-    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True), cwd=os.path.join(str(mario_folder.dirname), 'tmpdir'))
+    parsed_MARIOFILE_include = mariofile.parse_config(
+            MARIOFILE_AND_INCLUDE.splitlines(True),
+            cwd=os.path.join(str(mario_folder.dirname), 'tmpdir')
+    )
     for key, value in parsed_MARIOFILE_include.items():
         assert value == parsed_MARIOFILE_include_test[key], print(key)
 
@@ -263,5 +264,8 @@ def test_parse_config(tmpdir):
     }
     h = mario_folder.join('test_parse_config.ini')
     h.write(TEST_PARSE_CONFIG)
-    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True), cwd=os.path.join(str(mario_folder.dirname), 'tmpdir'))
+    parsed_MARIOFILE_include = mariofile.parse_config(MARIOFILE_AND_INCLUDE.splitlines(True),
+                                                      cwd=os.path.join(
+                                                              str(mario_folder.dirname), 'tmpdir'
+                                                      ))
     assert parsed_MARIOFILE_include == parsed_MARIOFILE_multiple_include

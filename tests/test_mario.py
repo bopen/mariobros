@@ -133,7 +133,9 @@ target: source
         task
 """
     # workaround for different behaviour of mako in cpython2, cpython3, pypy2 and pypy3
-    assert mario.print_namespaces(default_namespace, section_namespaces).replace('\n\n', '\n').replace('\n\n', '\n') == output
+    assert mario.print_namespaces(
+            default_namespace, section_namespaces
+    ).replace('\n\n', '\n').replace('\n\n', '\n') == output
 
 
 def test_render_config(tmpdir):

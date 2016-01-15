@@ -113,13 +113,17 @@ class ReRuleTask(luigi.Task):
     target = luigi.Parameter()
 
     def render_sources(self):
-        return TupleOfStr(self._target_pattern.sub(repl, self.target) for repl in self.sources_repls)
+        return TupleOfStr(
+                self._target_pattern.sub(repl, self.target) for repl in self.sources_repls
+        )
 
     def render_action(self):
         sources = self.render_sources()
         match = self._target_pattern.match(self.target)
         target_namespace = dict(TARGET=self.target, SOURCES=sources, MATCH=match)
-        return render_template(self.action_template, target_namespace, default_namespace=self.action_namespace)
+        return render_template(
+                self.action_template, target_namespace, default_namespace=self.action_namespace
+        )
 
     def output(self):
         return luigi.LocalTarget(self.target + self.dry_run_suffix)
@@ -201,15 +205,20 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
     for task_name, namespace in namespaces.items():
         action_namespace = default_namespace.copy()
         action_namespace.update(namespace)
-        task_namespace = {k: namespace[k] for k in ['target_pattern', 'sources_repls', 'action_template'] if
-                          k in namespace}
+        task_namespace = {
+            k: namespace[k] for k in ['target_pattern', 'sources_repls', 'action_template']
+            if k in namespace}
         task_namespace['sources_repls'] = task_namespace['sources_repls'].split()
         # luigi attributes
-        task_namespace['resources'] = {k.partition('_')[2]: int(v) for k, v in namespace.items() if
-                                       k.startswith('resources_')}
+        task_namespace['resources'] = {k.partition('_')[2]: int(v) for k, v in namespace.items()
+                                       if k.startswith('resources_')}
         task_namespace.update(
-            {k: int(namespace[k]) for k in ['priority', 'disabled', 'worker_timeout'] if k in namespace})
-        yield ReRuleTask.factory(task_name, dry_run_suffix=dry_run_suffix, action_namespace=action_namespace, **task_namespace)
+            {k: int(namespace[k]) for k in ['priority', 'disabled', 'worker_timeout']
+             if k in namespace})
+        yield ReRuleTask.factory(
+                task_name, dry_run_suffix=dry_run_suffix, action_namespace=action_namespace,
+                **task_namespace
+        )
 
 
 def print_namespaces(default_namespace, section_namespaces):
@@ -220,7 +229,9 @@ def print_namespaces(default_namespace, section_namespaces):
     :return: str
     """
     template = mako.template.Template(TEMPLATE)
-    namespaces = template.render(default_namespace=default_namespace, section_namespaces=section_namespaces)
+    namespaces = template.render(
+            default_namespace=default_namespace, section_namespaces=section_namespaces
+    )
     return namespaces
 
 
@@ -231,7 +242,9 @@ def render_config(section_namespaces):
     :return: (dict, dict, dict)
     """
     default_namespace = render_namespace(section_namespaces['DEFAULT'])
-    rendered_namespaces = collections.OrderedDict((k, render_namespace(v, default_namespace)) for k, v in section_namespaces.items())
+    rendered_namespaces = collections.OrderedDict(
+            (k, render_namespace(v, default_namespace)) for k, v in section_namespaces.items()
+    )
     return default_namespace, rendered_namespaces
 
 
@@ -246,7 +259,9 @@ def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=
     """
     dry_run_suffix = '-dry_run-' + str(uuid.uuid4()) if dry_run else ''
     rendered_namespaces = collections.OrderedDict(reversed(list(rendered_namespaces.items())))
-    tasks = list(register_tasks(rendered_namespaces, default_namespace=default_namespace, dry_run_suffix=dry_run_suffix))
+    tasks = list(register_tasks(
+            rendered_namespaces, default_namespace=default_namespace, dry_run_suffix=dry_run_suffix
+    ))
     target_tasks = []
     for target in targets:
         for task_rule in tasks:
