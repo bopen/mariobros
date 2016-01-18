@@ -93,7 +93,7 @@ def parse_sections(stream):
 
 
 def parse_include(raw_lines):
-    """Parse the intestation of the raw_lines and return a list of filepaths to be included.
+    """Parse the heading of the raw_lines and return a list of filepaths to be included.
 
     :param iterable raw_lines: Mariofile raw_lines.
     :rtype: (list, iterable)

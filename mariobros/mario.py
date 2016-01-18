@@ -94,6 +94,7 @@ class ReRuleTask(luigi.Task):
         :param int worker_timeout: Worker timeout Luigi task metadata.
         :param dict resources: Resources Luigi task metadata.
         :param bool disabled: Disabled Luigi task metadata.
+        :param unicode dry_run_suffix: Suffix to be added to file created during dry run.
         :rtype: subclass_of_ReRuleTask
         """
         # FIXME: move class init code to init method?
