@@ -94,6 +94,7 @@ class ReRuleTask(luigi.Task):
         :param int worker_timeout: Worker timeout Luigi task metadata.
         :param dict resources: Resources Luigi task metadata.
         :param bool disabled: Disabled Luigi task metadata.
+        :param unicode dry_run_suffix: Suffix to be added to file created during dry run.
         :rtype: subclass_of_ReRuleTask
         """
         # FIXME: move class init code to init method?
@@ -158,7 +159,7 @@ class ReRuleTask(luigi.Task):
 def render_template(template, local_namespace, default_namespace={}):
     """Return the rendered template merging local and default namespaces.
 
-    :param str template: Template.
+    :param unicode template: Template.
     :param dict local_namespace: Local namespace.
     :param dict default_namespace: Default namespace.
     :rtype: str
@@ -198,7 +199,7 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
 
     :param dict namespaces: Task namespaces.
     :param dict default_namespace: Default namespaces.
-    :param bool dry_run_suffix: Suffix to be added to file created during dry run.
+    :param unicode dry_run_suffix: Suffix to be added to file created during dry run.
     :rtype: iterable
     """
 
@@ -238,7 +239,7 @@ def print_namespaces(default_namespace, section_namespaces):
 def render_config(section_namespaces):
     """Parse and render a Mariofile.
 
-    :param str mariofile: Mariofile path.
+    :param dict section_namespaces: Section namespaces dictionary.
     :return: (dict, dict, dict)
     """
     default_namespace = render_namespace(section_namespaces['DEFAULT'])
