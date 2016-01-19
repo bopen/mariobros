@@ -212,7 +212,7 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
         task_namespace['sources_repls'] = task_namespace['sources_repls'].split()
         # luigi attributes
         task_namespace['resources'] = {k.partition('_')[2]: int(v) for k, v in namespace.items()
-                                       if k.startswith('resources_')}
+                                       if k.startswith('RESOURCES_')}
         task_namespace.update(
             {k: int(namespace[k]) for k in ['priority', 'disabled', 'worker_timeout']
              if k in namespace})

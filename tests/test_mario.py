@@ -60,8 +60,8 @@ NAMESPACES = collections.OrderedDict([
         'action_template': 'action -o ${TARGET} ${SOURCES}',
     }),
     ('rule2', {
-        'resources_cpu': 2,
-        'resources_mem': 4,
+        'RESOURCES_cpu': 2,
+        'RESOURCES_mem': 4,
         'priority': 20,
         'target_pattern': '(.*).source',
         'sources_repls': '\\1.orig',
