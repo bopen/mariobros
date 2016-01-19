@@ -18,7 +18,7 @@ def mariobros(
     """Main mariobros entry point. Parse the configuration file and launch the build of targets.
 
     :param sequence targets: List of targets.
-    :param unicode mariofile: Mariofile name.
+    :param unicode mariofile: MarioFile name.
     :param bool print_ns: Flag to print namespace.
     :param bool dry_run: Dry run flag.
     :param int workers: Number of workers.
