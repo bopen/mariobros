@@ -18,7 +18,7 @@ def mariobros(
     """Main mariobros entry point. Parse the configuration file and launch the build of targets.
 
     :param sequence targets: List of targets.
-    :param unicode mariofile: Mariofile name.
+    :param unicode mariofile: MarioFile name.
     :param bool print_ns: Flag to print namespace.
     :param bool dry_run: Dry run flag.
     :param int workers: Number of workers.
@@ -43,13 +43,14 @@ def mariobros(
 @click.argument('targets', nargs=-1, type=click.Path())
 @click.option(
     '--file', '--mariofile', '-f', default='mario.ini',
-    help='Main configuration file', type=click.Path(exists=True, dir_okay=False))
+    help="Main configuration file", type=click.Path(exists=True, dir_okay=False))
 @click.option(
     '--logging_conf_file', default=None,
-    help='Logging configuration file', type=click.Path(exists=True, dir_okay=False))
-@click.option('--workers', default=1, help='Number of workers', type=int)
-@click.option('--local-scheduler', is_flag=True)
-@click.option('--print-ns', is_flag=True)
+    help="Logging configuration file", type=click.Path(exists=True, dir_okay=False))
+@click.option('--workers', default=1, help="Set the number of workers", type=int)
+@click.option('--local-scheduler', is_flag=True, help="Run local scheduler.")
+@click.option('--print-ns', is_flag=True,
+              help="Print namespaces: Print the MarioFile with the included tasks and variables")
 @click.option(
     '--dry-run', '-n', is_flag=True,
     help="Don't actually run any commands; just print them.")
