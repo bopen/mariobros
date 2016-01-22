@@ -103,7 +103,7 @@ class ReRuleTask(luigi.Task):
         if not target_pattern.endswith('$'):
             target_pattern += '$'
         if action_template.strip() == '':
-            action_template = 'echo "${sources} -> ${target}"'
+            action_template = 'echo "${SOURCES} -> ${TARGET}"'
         _target_pattern = re.compile(target_pattern)
         return type(future.utils.native_str(name), (ReRuleTask,), locals())
 
