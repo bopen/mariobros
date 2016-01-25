@@ -254,7 +254,7 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
         action_namespace = default_namespace.copy()
         action_namespace.update(namespace)
         task_keys = ['target_pattern', 'sources_repls', 'action_template', 'SHELL']
-        task_namespace = {k: namespace[k] for k in task_keys if k in namespace}
+        task_namespace = {k: action_namespace[k] for k in task_keys if k in action_namespace}
         task_namespace['sources_repls'] = task_namespace['sources_repls'].split()
         # luigi attributes
         task_namespace['resources'] = {k.partition('_')[2]: int(v) for k, v in namespace.items()
