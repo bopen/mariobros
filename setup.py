@@ -7,16 +7,18 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+version = '0.3.0dev0'
 
 setup(
     name='mariobros',
-    version='0.2.0',
+    version=version,
     description='Simple configuration for Spotify Luigi.',
     long_description=long_description,
     url='https://github.com/bopen/mariobros',
-    download_url='https://github.com/bopen/mariobros/archive/0.2.0.tar.gz',
+    download_url='https://github.com/bopen/mariobros/archive/%s.tar.gz' % version,
     author='B-Open Solutions srl',
     author_email='oss@bopen.eu',
     license='Apache License 2.0',
