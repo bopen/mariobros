@@ -193,7 +193,6 @@ run all tests::
 
     py.test -v tests
 
-
 Develop
 -------
 
@@ -218,10 +217,6 @@ pep8/flakes::
 version testing::
 
     tox
-
-run luigid in background with logging::
-
-    luigid > luigid.log 2>&1 &
 
 some minimal test configuration::
 
