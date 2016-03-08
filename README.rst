@@ -184,7 +184,7 @@ Install
 
 install in the current python environment::
 
-    python setup.py install
+    pip install mariobros
 
 Test
 ----
