@@ -167,7 +167,7 @@ You can also specify the required resources for the single tasks.
 You have to define the available resources in the *client.cfg* file defining the ``[resources]`` section as follow::
 
     [resources]
-    cpus = 300
+    cpus = 64
 
 You can specify required resources for the single tasks setting the local task variables ``RESOURCES_RESOURCE_NAME``
 where ``RESOURCE_NAME`` is the name of the resource defined in the *client.cfg*, for example::
