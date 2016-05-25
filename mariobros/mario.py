@@ -7,6 +7,7 @@ from builtins import dict, int, str, super
 import atexit
 import collections
 import distutils.spawn
+import importlib
 import logging
 import re
 import shlex
@@ -213,6 +214,8 @@ def render_template(template, local_namespace, default_namespace={}):
     """
     namespace = default_namespace.copy()
     namespace.update(local_namespace)
+    if 'IMPORT_MODULES' in namespace:
+        namespace.update({name: importlib.import_module(name) for name in namespace['IMPORT_MODULES'].split()})
     return mako.template.Template(template, strict_undefined=True).render(**namespace)
 
 
