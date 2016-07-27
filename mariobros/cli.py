@@ -44,9 +44,6 @@ def mariobros(
 @click.option(
     '--file', '--mariofile', '-f', default='mario.ini',
     help="Main configuration file", type=click.Path(exists=True, dir_okay=False))
-@click.option(
-    '--logging_conf_file', default=None,
-    help="Logging configuration file", type=click.Path(exists=True, dir_okay=False))
 @click.option('--workers', default=1, help="Set the number of workers", type=int)
 @click.option('--local-scheduler', is_flag=True, help="Run local scheduler.")
 @click.option('--print-ns', is_flag=True,
