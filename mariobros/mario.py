@@ -194,7 +194,7 @@ class ReRuleTask(luigi.Task):
         else:
             shell = self.render_shell()
             args = shlex.split(shell) + ['-c', action]
-            # be sure to use the abspath of the executable based on the PATH anvironment variable
+            # be sure to use the abspath of the executable based on the PATH environment variable
             args[0] = distutils.spawn.find_executable(args[0])
         LOGGER.info('COMMAND: {}'.format(args))
         subprocess.check_call(args)
