@@ -65,6 +65,11 @@ class TupleOfStr(tuple):
         return self.__class__(value)
 
 
+def space_join(iterable):
+    """Mako filter to pretty print iterables."""
+    return ' '.join(map(str, iterable))
+
+
 class ExistingFile(luigi.ExternalTask):
     """Define Luigi External Task class for existing files requires."""
 
@@ -218,7 +223,13 @@ def render_template(template, local_namespace, default_namespace={}):
     if 'IMPORT_MODULES' in namespace:
         import_modules = namespace['IMPORT_MODULES'].split()
         namespace.update({name: importlib.import_module(name) for name in import_modules})
-    return mako.template.Template(template, strict_undefined=True).render(**namespace)
+
+    template_object = mako.template.Template(
+        template,
+        strict_undefined=True,
+        imports=['from mariobros.mario import space_join as i'],  # enable the 'i' filter
+    )
+    return template_object.render(**namespace)
 
 
 def render_namespace(namespace, default_namespace={}, skip_names=('action_template', 'SHELL')):

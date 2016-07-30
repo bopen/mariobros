@@ -26,6 +26,10 @@ def test_TupleOfStr():
     assert str(mario.TupleOfStr(tuple_of_strings)[1:]) == 'two three'
 
 
+def test_space_join():
+    assert mario.space_join(range(3)) == '0 1 2'
+
+
 class test_ExistingFile():
     existing_file = mario.ExistingFile(__file__)
     assert existing_file.output().exists()
