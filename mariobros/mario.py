@@ -12,6 +12,7 @@ import logging
 import re
 import shlex
 import subprocess
+import sys
 import uuid
 
 import future.utils
@@ -215,7 +216,8 @@ def render_template(template, local_namespace, default_namespace={}):
     namespace = default_namespace.copy()
     namespace.update(local_namespace)
     if 'IMPORT_MODULES' in namespace:
-        namespace.update({name: importlib.import_module(name) for name in namespace['IMPORT_MODULES'].split()})
+        import_modules = namespace['IMPORT_MODULES'].split()
+        namespace.update({name: importlib.import_module(name) for name in import_modules})
     return mako.template.Template(template, strict_undefined=True).render(**namespace)
 
 
@@ -307,6 +309,10 @@ def mario(rendered_namespaces, default_namespace, targets=('DEFAULT',), dry_run=
     :param bool dry_run: Dry run flag.
     :rtype : iterable
     """
+    # ensure '.' is present in sys.path so 'IMPORT_MODULES = local_module' works
+    if '.' not in sys.path:
+        sys.path.append('.')
+
     dry_run_suffix = '-dry_run-' + str(uuid.uuid4()) if dry_run else ''
     rendered_namespaces = collections.OrderedDict(reversed(list(rendered_namespaces.items())))
     tasks = list(register_tasks(
