@@ -94,20 +94,24 @@ Summing up, a typical MarioFile will look like this::
 Executing Mario
 ---------------
 
-The Mario command line is
+The Mario command line is:
 
-    >>> mario --help
-    mario [OPTIONS] [TARGETS]...
+.. code-block:: console
+
+    $ mario --help
+    Usage: mario [OPTIONS] [TARGETS]...
+
     Options:
       -f, --file, --mariofile PATH  Main configuration file
-      --logging_conf_file PATH      Logging configuration file
-      --workers NEWINT              Set the number of workers
+      --workers INTEGER             Set the number of workers
       --local-scheduler             Run local scheduler.
       --print-ns                    Print namespaces: Print the MarioFile with the
                                     included tasks and variables
       -n, --dry-run                 Don't actually run any commands; just print
                                     them.
       --help                        Show this message and exit.
+
+With:
 
     1. All the mario options and arguments are optional.
     2. The default task request is ``[DEFAULT]``.
@@ -118,18 +122,18 @@ The Mario command line is
 With external scheduler
 +++++++++++++++++++++++
 
-First of all you have to run ``luigid``.
+First of all you have to run ``luigid``::
 
-    >>> luigid
+    $ luigid
 
-Then you can run ``mario`` script with the command line described above.
+Then you can run ``mario`` script with the command line described above::
 
-    >>> mario
+    $ mario
 
 In this way mario will execute the default target with mario.ini as MarioFile.
-You can also request a specific target with a MarioFile different from mario.ini as follow:
+You can also request a specific target with a MarioFile different from mario.ini as follow::
 
-    >>> mario -f my_mariofile.ini target.out
+    $ mario -f my_mariofile.ini target.out
 
 You can visualize a scheduler in `localhost:8082 <http://localhost:8082/>`_ address.
 There will be a list of the tasks and a tree diagram of the processing.
@@ -137,9 +141,9 @@ There will be a list of the tasks and a tree diagram of the processing.
 With local scheduler
 ++++++++++++++++++++
 
-If you don't need to visualize the scheduler you can run ``mario`` without ``luigid`` running and with the local scheduler as follow.
+If you don't need to visualize the scheduler you can run ``mario`` without ``luigid`` running and with the local scheduler as follow::
 
-    >>> mario --local-scheduler
+    $ mario --local-scheduler
 
 Luigi configuration file
 ------------------------
