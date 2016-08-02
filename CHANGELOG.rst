@@ -1,5 +1,5 @@
 
-0.3.1 (unreleased)
+0.4.0 (2016-08-02)
 ------------------
 
 - Change default Mako filter to pretty print iterables.
