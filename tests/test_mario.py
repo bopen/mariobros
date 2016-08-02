@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import next, str
+from builtins import next
 
 import collections
 import os
@@ -17,17 +17,9 @@ from mariobros import mariofile
 cw_dir = os.path.dirname(__file__)
 
 
-def test_TupleOfStr():
-    tuple_of_strings = ('one', 'two', 'three')
-    assert mario.TupleOfStr(tuple_of_strings) == tuple_of_strings
-    assert str(mario.TupleOfStr(tuple_of_strings)) == 'one two three'
-    assert mario.TupleOfStr(tuple_of_strings)[0] == 'one'
-    assert mario.TupleOfStr(tuple_of_strings)[1:] == ('two', 'three')
-    assert str(mario.TupleOfStr(tuple_of_strings)[1:]) == 'two three'
-
-
-def test_space_join():
-    assert mario.space_join(range(3)) == '0 1 2'
+def test_pretty_unicode():
+    assert mario.pretty_unicode(range(3)) == '0 1 2'
+    assert mario.pretty_unicode('test') == 'test'
 
 
 class test_ExistingFile():

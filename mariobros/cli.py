@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import int
+from builtins import int, str
 
 import click
 import luigi
@@ -24,6 +24,8 @@ def mariobros(
     :param int workers: Number of workers.
     :param dict kwargs: Passed to the luigi.build function.
     """
+    assert all(isinstance(target, str) for target in targets)
+
     if dry_run and workers > 1:
         workers = 1
         mario.LOGGER.warning('Dry run is incompatible with multiprocessing. Setting --workers=1')

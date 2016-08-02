@@ -2,7 +2,7 @@
 
 # python 2 support via python-future
 from __future__ import absolute_import, division, print_function, unicode_literals
-from builtins import dict, int, str, super
+from builtins import dict, int, str
 
 import atexit
 import collections
@@ -48,26 +48,14 @@ ${section_namespace['target_pattern']}: ${section_namespace['sources_repls']}
 """
 
 
-class TupleOfStr(tuple):
-    """A tuple with a special str representation to be used in rules."""
-
-    def __str__(self):
-        return ' '.join(str(item) for item in self)
-
-    def __getitem__(self, key):
-        value = super(TupleOfStr, self).__getitem__(key)
-        if isinstance(key, slice):
-            value = self.__class__(value)
-        return value
-
-    def __getslice__(self, i, j):
-        value = super(TupleOfStr, self).__getslice__(i, j)
-        return self.__class__(value)
-
-
-def space_join(iterable):
-    """Mako filter to pretty print iterables."""
-    return ' '.join(map(str, iterable))
+def pretty_unicode(obj):
+    """Filter to pretty print iterables."""
+    if not isinstance(obj, str):
+        try:
+            return ' '.join(str(item) for item in obj)
+        except TypeError:
+            pass
+    return str(obj)
 
 
 class ExistingFile(luigi.ExternalTask):
@@ -133,9 +121,7 @@ class ReRuleTask(luigi.Task):
 
         :rtype: str
         """
-        return TupleOfStr(
-                self._target_pattern.sub(repl, self.target) for repl in self.sources_repls
-        )
+        return tuple(self._target_pattern.sub(repl, self.target) for repl in self.sources_repls)
 
     def render_action(self):
         """Perform rendering of the action.
@@ -227,7 +213,8 @@ def render_template(template, local_namespace, default_namespace={}):
     template_object = mako.template.Template(
         template,
         strict_undefined=True,
-        imports=['from mariobros.mario import space_join as i'],  # enable the 'i' filter
+        imports=['from mariobros.mario import pretty_unicode'],  # enable the filter
+        default_filters=['pretty_unicode'],
     )
     return template_object.render(**namespace)
 
