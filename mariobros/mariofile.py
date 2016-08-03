@@ -54,7 +54,8 @@ def parse_section_body(stream):
                 raise ConfigurationFileError("Section must have only one rule")
             target_sources, _, action_template = statement.strip().partition('\n')
             namespace['action_template'] = action_template
-            target_pattern, _, sources = target_sources.partition(':')
+            # FIXME: you cannot have SOURCES path with ":" inside like "s3://".
+            target_pattern, _, sources = target_sources.rpartition(':')
             namespace['sources_repls'] = sources.strip()
             namespace['target_pattern'] = target_pattern.strip()
         else:

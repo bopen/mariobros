@@ -17,6 +17,7 @@ import uuid
 
 import future.utils
 import luigi
+from luigi.s3 import S3Target
 import mako.template
 
 
@@ -150,7 +151,10 @@ class ReRuleTask(luigi.Task):
         See :ref:`Task.output`
         :rtype: luigi.LocalTarget
         """
-        return luigi.LocalTarget(self.target + self.dry_run_suffix)
+        if self.target.startswith('s3://'):
+            return S3Target(self.target)
+        else:
+            return luigi.LocalTarget(self.target + self.dry_run_suffix)
 
     def requires(self):
         """
