@@ -68,9 +68,9 @@ and the definition of the default task. The default task is executed when no oth
     default_target: source1 source2
         default_task_command
 
-At the top of the file you can include other MarioFiles in this way::
+At the top of the file you can include other MarioFiles with the path in this way::
 
-    include mariofile_name.ini
+    include mariofile_path.ini
 
 The global variables of the included MarioFile will be added at the top of the MarioFile.
 The tasks of the included MarioFiles will be added at the end of the MarioFile.
