@@ -51,6 +51,7 @@ ${section_namespace['target_pattern']}: ${section_namespace['sources_repls']}
 
 def pretty_unicode(obj):
     """Filter to pretty print iterables."""
+    # FIXME: python2/python3 support
     if not isinstance(obj, (str, bytes)):
         try:
             return ' '.join(str(item) for item in obj)
