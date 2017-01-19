@@ -51,7 +51,7 @@ ${section_namespace['target_pattern']}: ${section_namespace['sources_repls']}
 
 def pretty_unicode(obj):
     """Filter to pretty print iterables."""
-    if not isinstance(obj, str):
+    if not isinstance(obj, (str, bytes)):
         try:
             return ' '.join(str(item) for item in obj)
         except TypeError:
@@ -276,7 +276,7 @@ def register_tasks(namespaces, default_namespace={}, dry_run_suffix=''):
 
 
 def print_namespaces(default_namespace, section_namespaces):
-    """Print namespaces with the Mariofile format.
+    """Print namespaces with the MarioFile format.
 
     :param dict default_namespace: Default namespace dictionary.
     :param dict section_namespaces: Section namespaces dictionary.
@@ -290,7 +290,7 @@ def print_namespaces(default_namespace, section_namespaces):
 
 
 def render_config(section_namespaces):
-    """Parse and render a Mariofile.
+    """Parse and render a MarioFile.
 
     :param dict section_namespaces: Section namespaces dictionary.
     :return: (dict, dict, dict)
