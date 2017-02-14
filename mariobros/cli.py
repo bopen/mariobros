@@ -56,4 +56,6 @@ def mariobros(
 def main(targets, **kwargs):
     if not targets:
         targets = ('DEFAULT',)
+    else:
+        targets = [str(token) for token in targets]
     mariobros(targets, **kwargs)
