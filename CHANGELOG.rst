@@ -1,5 +1,5 @@
 
-0.5.0 (unreleased)
+0.4.1 (2017-02-14)
 ------------------
 
 - Fixed a couple of string Python2/3 bugs.
