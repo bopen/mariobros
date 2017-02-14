@@ -2,7 +2,7 @@
 0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed a couple of string Python2/3 bugs.
 
 
 0.4.0 (2016-08-02)
