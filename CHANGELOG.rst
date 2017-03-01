@@ -1,8 +1,8 @@
 
-0.5.0 (unreleased)
+0.4.2 (2017-03-01)
 ------------------
 
-- Nothing changed yet.
+- Add a `--port` command line option to select the port the scheduler listen to.
 
 
 0.4.1 (2017-02-14)
