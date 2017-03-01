@@ -13,6 +13,7 @@ from mariobros import mariofile as mariofile_
 
 def mariobros(
         targets=('DEFAULT',), mariofile='mario.ini', print_ns=False, dry_run=False, workers=1,
+        port=8082,
         **kwargs
 ):
     """Main mariobros entry point. Parse the configuration file and launch the build of targets.
@@ -38,7 +39,7 @@ def mariobros(
         target_tasks = mario.mario(
             rendered_namespaces, default_namespace, targets=targets, dry_run=dry_run
         )
-        luigi.build(target_tasks, workers=workers, **kwargs)
+        luigi.build(target_tasks, workers=workers, scheduler_port=port, **kwargs)
 
 
 @click.command()
@@ -46,6 +47,7 @@ def mariobros(
 @click.option(
     '--file', '--mariofile', '-f', default='mario.ini',
     help="Main configuration file", type=click.Path(exists=True, dir_okay=False))
+@click.option('--port', '-p', default=8082, help="Set `luigi.build` scheduler_port parameter.")
 @click.option('--workers', default=1, help="Set the number of workers", type=int)
 @click.option('--local-scheduler', is_flag=True, help="Run local scheduler.")
 @click.option('--print-ns', is_flag=True,
