@@ -103,6 +103,7 @@ The Mario command line is:
 
     Options:
       -f, --file, --mariofile PATH  Main configuration file
+      -p, --port INTEGER            Set `luigi.build` scheduler_port parameter.
       --workers INTEGER             Set the number of workers
       --local-scheduler             Run local scheduler.
       --print-ns                    Print namespaces: Print the MarioFile with the
