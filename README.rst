@@ -41,7 +41,7 @@ You can match parts of the target name with parts of the sources name with pytho
 For example::
 
     [task_name]
-    (*.)-(*.)-(*.).txt: \1.txt \2.txt \3.txt
+    (.*)-(.*)-(.*).txt: \1.txt \2.txt \3.txt
         task_command --output ${TARGET} --first-input ${SOURCES[0]} --other-inputs ${SOURCES[1:]}
 
 This task match a target like ``first-second-third.txt`` with 3 source files named ``first.txt``, ``second.txt`` and ``third.txt``.
@@ -83,12 +83,12 @@ Summing up, a typical MarioFile will look like this::
     global_var1 = value1
     global_var2 = value2
 
-    (*.)-main_target.out: \1-\1-task1
+    (.*)-main_target.out: \1-\1-task1
         default_task -o ${SOURCES} -i ${TARGET}
 
     [task_1]
     RESOURCES_CPU = 4
-    (*.)-(*.)-task1: source1 source2
+    (.*)-(.*)-task1: source1 source2
         task_1 -o ${TARGET} -i ${SOURCES} -j ${RESOURCES_CPU}
 
 Executing Mario
