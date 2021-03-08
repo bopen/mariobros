@@ -26,7 +26,7 @@ For example:
     [task_name]
     resources_cpu_cores = 2
     resources_memory_kb = 2000
-    (*.)-(*.).txt: \1.txt \2.txt
+    (.*)-(.*).txt: \1.txt \2.txt
         touch ${target}
 
 This task match a target like "first-second.txt" with 2 source files named "first.txt" and "second.txt". \1 represent the first match
@@ -47,15 +47,17 @@ The Mario command line is
 
     mario --help
     Usage: mario [OPTIONS] [TARGETS]...
-
     Options:
-      -f, --file, --mariofile PATH  Main configuration file
-      --logging_conf_file PATH      Logging configuration file
-      --workers NEWINT              Number of workers
-      --local-scheduler
-      --print-ns
+      -f, --mariofile, --file FILE  Main configuration file
+      -p, --port INTEGER            Set `luigi.build` scheduler_port parameter.
+      --workers INTEGER             Set the number of workers
+      --local-scheduler             Run local scheduler.
+      --print-ns                    Print namespaces: Print the MarioFile with the
+                                    included tasks and variables
+
       -n, --dry-run                 Don't actually run any commands; just print
                                     them.
+
       --help                        Show this message and exit.
 
 All the mario options and arguments are optional. The default task request is DEFAULT. The default mariofile is mario.ini.
