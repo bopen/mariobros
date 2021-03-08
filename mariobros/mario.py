@@ -17,7 +17,7 @@ import uuid
 
 import future.utils
 import luigi
-from luigi.s3 import S3Target
+from luigi.contrib.s3 import S3Target
 import mako.template
 
 
