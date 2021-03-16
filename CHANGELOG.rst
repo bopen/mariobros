@@ -2,7 +2,8 @@
 0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed crash from new Luigi.
+- Fixed crash from new Click.
 
 
 0.4.2 (2017-03-01)
