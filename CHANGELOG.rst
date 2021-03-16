@@ -1,5 +1,5 @@
 
-0.5.0 (unreleased)
+0.4.3 (2021-03-16)
 ------------------
 
 - Fixed crash from new Luigi.
