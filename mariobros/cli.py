@@ -45,7 +45,7 @@ def mariobros(
 @click.command()
 @click.argument('targets', nargs=-1, type=click.Path())
 @click.option(
-    '--mariofile', '--file', '-f', default='mario.ini',
+    '--mariofile', '-f', default='mario.ini',
     help="Main configuration file", type=click.Path(exists=True, dir_okay=False))
 @click.option('--port', '-p', default=8082, help="Set `luigi.build` scheduler_port parameter.")
 @click.option('--workers', default=1, help="Set the number of workers", type=int)
