@@ -1,8 +1,8 @@
 
-0.4.4 (unreleased)
+0.4.4 (2021-03-17)
 ------------------
 
-- Nothing changed yet.
+- Fix Click incompatibility for real.
 
 
 0.4.3 (2021-03-16)
